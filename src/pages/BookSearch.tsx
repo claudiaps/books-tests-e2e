@@ -9,7 +9,7 @@ interface Book {
 
 const BookSearch: React.FC = () => {
   const [query, setQuery] = useState("");
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<Book[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -25,14 +25,15 @@ const BookSearch: React.FC = () => {
       );
       const docs = response.data.docs;
 
-      const filteredBooks: Book[] = docs.map((doc: any) => ({
+      const filteredBooks: Book[] = docs.map((doc: Book) => ({
         key: doc.key,
         title: doc.title,
         first_publish_year: doc.first_publish_year || "Desconhecido",
       }));
 
       setBooks(filteredBooks);
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       setError("Erro ao buscar livros. Tente novamente.");
     } finally {
       setLoading(false);
@@ -63,13 +64,19 @@ const BookSearch: React.FC = () => {
       {error && <p className="text-red-600">{error}</p>}
 
       <ul className="space-y-2">
-        {books.map((book) => (
+        {books?.map((book) => (
           <li key={book.key} className="border p-3 rounded shadow-sm">
             <strong>Título: {book.title}</strong>
             <p>Ano de publicação: {book.first_publish_year}</p>
           </li>
         ))}
       </ul>
+
+      {books?.length === 0 && !loading && (
+        <span className="border p-3 rounded shadow-sm">
+          Nenhum livro encontrado.
+        </span>
+      )}
     </div>
   );
 };
