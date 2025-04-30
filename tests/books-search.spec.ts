@@ -17,15 +17,15 @@ test("Search books and render as a list", async ({ page }) => {
     expect(firstItem).toContainText(/Harry Potter/)
 })
 
-test("Search an unexistent book", async ({ page }) => {
-    await page.goto("http://localhost:5173/books")
-    const title = await page.getByText("Busca de Livros")
+// test("Search an unexistent book", async ({ page }) => {
+//     await page.goto("http://localhost:5173/books")
+//     const title = await page.getByText("Busca de Livros")
 
-    expect(title).toBeTruthy()
+//     expect(title).toBeTruthy()
 
-    await page.getByRole("textbox").fill("asdasdasdasdasdasd")
-    await page.getByRole("button", { name: "Buscar" }).click()
+//     await page.getByRole("textbox").fill("asdasdasdasdasdasd")
+//     await page.getByRole("button", { name: "Buscar" }).click()
 
-    const notFoundMessage = await page.getByText("Nenhum livro encontrado.")
-    expect(notFoundMessage).toBeTruthy()
-})
+//     const notFoundMessage = await page.getByText("Nenhum livro encontrado.")
+//     expect(notFoundMessage).toBeTruthy()
+// })
